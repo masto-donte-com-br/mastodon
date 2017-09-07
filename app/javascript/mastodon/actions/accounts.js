@@ -74,6 +74,10 @@ export const FOLLOW_REQUEST_REJECT_REQUEST = 'FOLLOW_REQUEST_REJECT_REQUEST';
 export const FOLLOW_REQUEST_REJECT_SUCCESS = 'FOLLOW_REQUEST_REJECT_SUCCESS';
 export const FOLLOW_REQUEST_REJECT_FAIL    = 'FOLLOW_REQUEST_REJECT_FAIL';
 
+export const FOLLOW_SUGGESTIONS_FETCH_REQUEST = 'FOLLOW_SUGGESTIONS_FETCH_REQUEST';
+export const FOLLOW_SUGGESTIONS_FETCH_SUCCESS = 'FOLLOW_SUGGESTIONS_FETCH_SUCCESS';
+export const FOLLOW_SUGGESTIONS_FETCH_FAIL    = 'FOLLOW_SUGGESTIONS_FETCH_FAIL';
+
 function getFromDB(dispatch, getState, index, id) {
   return new Promise((resolve, reject) => {
     const request = index.get(id);
@@ -715,6 +719,18 @@ export function pinAccount(id) {
   };
 };
 
+export function fetchFollowSuggestions() {
+  return (dispatch, getState) => {
+    dispatch(fetchFollowSuggestionsRequest());
+
+    api(getState).get('/api/v1/suggestions').then(res => {
+      dispatch(fetchFollowSuggestionsSuccess(res.data));
+    }).catch(err => {
+      dispatch(fetchFollowSuggestionsFail(err));
+    });
+  };
+};
+
 export function unpinAccount(id) {
   return (dispatch, getState) => {
     dispatch(unpinAccountRequest(id));
@@ -765,6 +781,26 @@ export function unpinAccountSuccess(relationship) {
 export function unpinAccountFail(error) {
   return {
     type: ACCOUNT_UNPIN_FAIL,
+    error,
+  };
+};
+
+export function fetchFollowSuggestionsRequest() {
+  return {
+    type: FOLLOW_SUGGESTIONS_FETCH_REQUEST,
+  };
+};
+
+export function fetchFollowSuggestionsSuccess(accounts) {
+  return {
+    type: FOLLOW_SUGGESTIONS_FETCH_SUCCESS,
+    accounts,
+  };
+};
+
+export function fetchFollowSuggestionsFail(error) {
+  return {
+    type: FOLLOW_SUGGESTIONS_FETCH_FAIL,
     error,
   };
 };

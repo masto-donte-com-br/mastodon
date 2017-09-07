@@ -8,6 +8,7 @@ import {
   ACCOUNT_PIN_SUCCESS,
   ACCOUNT_UNPIN_SUCCESS,
   RELATIONSHIPS_FETCH_SUCCESS,
+  FOLLOW_SUGGESTIONS_FETCH_SUCCESS,
 } from '../actions/accounts';
 import {
   DOMAIN_BLOCK_SUCCESS,
@@ -33,6 +34,14 @@ const setDomainBlocking = (state, accounts, blocking) => {
   });
 };
 
+const presetRelationships = (state, accounts) => {
+  accounts.forEach(account => {
+    state = state.update(account.id, ImmutableMap(), map => map.set('following', false));
+  });
+
+  return state;
+};
+
 const initialState = ImmutableMap();
 
 export default function relationships(state = initialState, action) {
@@ -52,6 +61,8 @@ export default function relationships(state = initialState, action) {
     return setDomainBlocking(state, action.accounts, true);
   case DOMAIN_UNBLOCK_SUCCESS:
     return setDomainBlocking(state, action.accounts, false);
+  case FOLLOW_SUGGESTIONS_FETCH_SUCCESS:
+    return presetRelationships(state, action.accounts);
   default:
     return state;
   }

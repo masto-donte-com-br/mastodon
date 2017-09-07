@@ -1,6 +1,7 @@
 import {
   ACCOUNT_FOLLOW_SUCCESS,
   ACCOUNT_UNFOLLOW_SUCCESS,
+  FOLLOW_SUGGESTIONS_FETCH_SUCCESS,
 } from '../actions/accounts';
 import { ACCOUNT_IMPORT, ACCOUNTS_IMPORT } from '../actions/importer';
 import { Map as ImmutableMap, fromJS } from 'immutable';

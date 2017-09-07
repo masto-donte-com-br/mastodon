@@ -25,6 +25,7 @@ const messages = defineMessages({
   favourites: { id: 'navigation_bar.favourites', defaultMessage: 'Favourites' },
   blocks: { id: 'navigation_bar.blocks', defaultMessage: 'Blocked users' },
   domain_blocks: { id: 'navigation_bar.domain_blocks', defaultMessage: 'Hidden domains' },
+  suggestions: { id: 'navigation_bar.suggestions', defaultMessage: 'Who to follow' },
   mutes: { id: 'navigation_bar.mutes', defaultMessage: 'Muted users' },
   pins: { id: 'navigation_bar.pins', defaultMessage: 'Pinned toots' },
   lists: { id: 'navigation_bar.lists', defaultMessage: 'Lists' },
@@ -96,10 +97,11 @@ export default class GettingStarted extends ImmutablePureComponent {
     navItems.push(
       <ColumnLink key={i++} icon='envelope' text={intl.formatMessage(messages.direct)} to='/timelines/direct' />,
       <ColumnLink key={i++} icon='star' text={intl.formatMessage(messages.favourites)} to='/favourites' />,
-      <ColumnLink key={i++} icon='list-ul' text={intl.formatMessage(messages.lists)} to='/lists' />
+      <ColumnLink key={i++} icon='list-ul' text={intl.formatMessage(messages.lists)} to='/lists' />,
+      <ColumnLink key={i++} icon='user-plus' text={intl.formatMessage(messages.suggestions)} to='/suggestions' />
     );
 
-    height += 48*3;
+    height += 48*4;
 
     if (myAccount.get('locked')) {
       navItems.push(<ColumnLink key={i++} icon='users' text={intl.formatMessage(messages.follow_requests)} badge={badgeDisplay(unreadFollowRequests, 40)} to='/follow_requests' />);

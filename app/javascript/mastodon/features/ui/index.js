@@ -45,6 +45,7 @@ import {
   Mutes,
   PinnedStatuses,
   Lists,
+  Suggestions,
 } from './util/async-components';
 import { me } from '../../initial_state';
 import { previewState } from './components/media_modal';
@@ -178,6 +179,7 @@ class SwitchingColumnsArea extends React.PureComponent {
           <WrappedRoute path='/domain_blocks' component={DomainBlocks} content={children} componentParams={{ shouldUpdateScroll: this.shouldUpdateScroll }} />
           <WrappedRoute path='/mutes' component={Mutes} content={children} componentParams={{ shouldUpdateScroll: this.shouldUpdateScroll }} />
           <WrappedRoute path='/lists' component={Lists} content={children} componentParams={{ shouldUpdateScroll: this.shouldUpdateScroll }} />
+          <WrappedRoute path='/suggestions' component={Suggestions} content={children} componentParams={{ shouldUpdateScroll: this.shouldUpdateScroll }} />
 
           <WrappedRoute component={GenericNotFound} content={children} />
         </WrappedSwitch>
