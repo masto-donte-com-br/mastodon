@@ -722,6 +722,9 @@ GEM
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
+    resolv (0.6.0)
+    resolv-replace (0.1.1)
+      resolv
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -1058,6 +1061,7 @@ DEPENDENCIES
   rdf-normalize (~> 0.5)
   redcarpet (~> 3.6)
   redis (~> 4.5)
+  resolv-replace
   rqrcode (~> 3.0)
   rspec-github (~> 3.0)
   rspec-rails (~> 8.0)
