@@ -1,0 +1,51 @@
+@use 'sass:color';
+
+// Commonly used web colors
+$black: #000; // Black
+$white: #fff; // White
+$success-green: #79bd9a;    // Padua
+$error-red: #df405a;        // Cerise
+$warning-red: #ff5050;      // Sunset Orange
+$gold-star: #ffffff;        // White
+
+$red-bookmark: $warning-red;
+
+// Values from the classic Mastodon UI
+$classic-base-color: #28372c;         // Midnight Express
+$classic-primary-color: #9bc8ae;      // Vista blue
+$classic-highlight-color: darken(#2bd990, 15);    // darker Shamrock
+$classic-secondary-color: lighten(#2db990, 15%);    // lighter Shamrock
+$classic-yellow-lighter-color: #CCB419;
+$classic-base-lighter-color: lighten($classic-base-color, 26%);
+
+@use '../mastodon/variables' with (
+  $gold-star: $gold-star,
+  // Variables for defaults in UI
+  $base-shadow-color: $black,
+  $base-overlay-background: $black,
+  $base-border-color: $white,
+  $simple-background-color: $white,
+  $valid-value-color: $success-green,
+  $error-value-color: $error-red,
+
+  // Tell UI to use selected colors
+  $ui-base-color: $classic-base-color,                  // Darkest
+  $ui-primary-color: $classic-primary-color,            // Lighter
+  $ui-secondary-color: $classic-secondary-color,        // Lightest
+  $ui-highlight-color: $classic-highlight-color,
+  $ui-button-background-color: $classic-primary-color,
+
+  // Variables for texts
+  $primary-text-color: $white,
+  $darker-text-color: $classic-primary-color,
+  $dark-text-color: lighten($classic-base-color, 26%),
+  $secondary-text-color: $classic-secondary-color,
+  $highlight-text-color: $classic-highlight-color,
+  $action-button-color: $classic-yellow-lighter-color,
+  $passive-text-color: $gold-star,
+  $active-passive-text-color: $success-green,
+  // For texts on inverted backgrounds
+  $inverted-text-color: $classic-base-color,
+  $lighter-text-color: $classic-base-lighter-color,
+  $light-text-color: $classic-primary-color,
+);
