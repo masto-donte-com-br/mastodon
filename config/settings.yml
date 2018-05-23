@@ -80,3 +80,4 @@ test:
 
 production:
   <<: *defaults
+  theme: 'mastodonte'
