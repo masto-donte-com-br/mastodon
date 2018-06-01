@@ -1,32 +1,27 @@
 class PopularController < ApplicationController
+  include Authorization
   layout 'public'
 
-
-  REBLOG_WEIGHTING = 1
-  FAVOURITE_WEIGHTING = 1
-  CONVERSATION_WEIGHTING = 2
+  EXCLUDED_ACCOUNT_IDS = ENV['EXCLUDED_ACCOUNT_IDS'] || [-1]
   def index
-    @popular = Status
-                .local
-                .includes(:account, :preview_cards, :mentions, :conversation)
-                .with_public_visibility
-                .where('reblogs_count + favourites_count > ?', threshold)
-                .where('created_at BETWEEN ? AND ?', page.days.ago, (page - 1).days.ago)
-                .reorder('reblogs_count + favourites_count DESC')
-                .limit(100)
-                .sort_by { |s|
-                  s.reblogs_count * REBLOG_WEIGHTING +
-                  s.favourites_count * FAVOURITE_WEIGHTING +
-                  s.conversation.statuses.without_reblogs.count * CONVERSATION_WEIGHTING
-                }
-                .reverse[0...25]
+    authorize :popular, :index?
+    @popular = Status.
+                local.
+                with_public_visibility.
+                where('reblogs_count + favourites_count > ?', threshold).
+                where(%q(created_at > NOW() - INTERVAL '7 days')).
+                limit(100).
+                reverse[0...25]
     @page = page
   end
 
   protected
 
   def threshold
-    (params[:threshold].presence || 20).to_i
+    base = Status.local.with_public_visibility.where('account_id not in (?)', EXCLUDED_ACCOUNT_IDS).where('favourites_count > 1 or reblogs_count > 1').where(%q(created_at > NOW() - INTERVAL '30 days'))
+    favorites = base.average('statuses.favourites_count') || 0
+    reblogs = base.average('statuses.reblogs_count') || 0
+    favorites + reblogs
   end
 
   def page
