@@ -227,6 +227,7 @@ Rails.application.routes.draw do
   get '/about',      to: 'about#show'
   get '/about/more', to: redirect('/about')
 
+  get '/popular', to: 'popular#index'
   get '/privacy-policy', to: 'privacy#show', as: :privacy_policy
   get '/terms',          to: redirect('/privacy-policy')
 
