@@ -4,7 +4,7 @@ class REST::InstanceSerializer < ActiveModel::Serializer
   include RoutingHelper
 
   attributes :uri, :title, :short_description, :description, :email,
-             :version, :urls, :stats, :thumbnail,
+             :version, :flavour, :urls, :stats, :thumbnail,
              :languages, :registrations, :approval_required, :invites_enabled
 
   has_one :contact_account, serializer: REST::AccountSerializer
@@ -33,6 +33,10 @@ class REST::InstanceSerializer < ActiveModel::Serializer
 
   def version
     Mastodon::Version.to_s
+  end
+
+  def flavour
+    Mastodon::Version.flavour
   end
 
   def thumbnail

@@ -86,13 +86,13 @@ describe InstancePresenter do
 
   describe '#version_number' do
     it 'returns Mastodon::Version' do
-      expect(instance_presenter.version_number).to be(Mastodon::Version)
+      expect(instance_presenter.version_number).to be(Mastodon::Version.to_s_with_flavour)
     end
   end
 
   describe '#source_url' do
     it 'returns "https://github.com/tootsuite/mastodon"' do
-      expect(instance_presenter.source_url).to eq('https://github.com/tootsuite/mastodon')
+      expect(instance_presenter.source_url).to eq('https://github.com/masto-donte-com-br/mastodon')
     end
   end
 

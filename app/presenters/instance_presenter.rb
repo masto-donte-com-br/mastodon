@@ -37,7 +37,7 @@ class InstancePresenter
   end
 
   def version_number
-    Mastodon::Version
+    Mastodon::Version.to_s_with_flavour
   end
 
   def source_url
