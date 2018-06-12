@@ -21,7 +21,7 @@ module Mastodon
     end
 
     def suffix
-      ''
+      '-donte'
     end
 
     def to_a
@@ -33,7 +33,7 @@ module Mastodon
     end
 
     def repository
-      ENV.fetch('GITHUB_REPOSITORY', 'mastodon/mastodon')
+      ENV.fetch('GITHUB_REPOSITORY', 'masto-donte-com-br/mastodon')
     end
 
     def source_base_url
