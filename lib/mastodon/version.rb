@@ -24,6 +24,10 @@ module Mastodon
       ''
     end
 
+    def flavour
+      'donte'
+    end
+
     def to_a
       [major, minor, patch, pre].compact
     end
@@ -32,8 +36,12 @@ module Mastodon
       [to_a.join('.'), flags].join
     end
 
+    def to_s_with_flavour
+      [[to_a.join('.'), flags].join, flavour].join('-')
+    end
+
     def repository
-      'tootsuite/mastodon'
+      'masto-donte-com-br/mastodon'
     end
 
     def source_base_url
