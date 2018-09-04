@@ -1,3 +1,6 @@
+:ruby
+  autoplay        ||= current_account&.user&.setting_auto_play_gif
+
 .compact-header
   %h1 Popular Toots
 
@@ -6,7 +9,7 @@
     - cache status, expires_in: 5.minutes, race_condition_ttl: 5.seconds do
       .activity-stream.activity-stream-headless.h-entry
         .entry
-          = render partial: "stream_entries/popular_status", locals: { status: status, include_threads: false }
+          = render "stream_entries/popular_status", status: status, include_threads: false, autoplay: autoplay
     %br
 
 .links
