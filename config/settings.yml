@@ -34,6 +34,7 @@ defaults: &defaults
   captcha_enabled: false
   allow_referrer_origin: false
   landing_page: 'trends'
+  #max_users_limit: 700
 
 development:
   <<: *defaults
