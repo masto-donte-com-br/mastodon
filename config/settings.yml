@@ -53,6 +53,7 @@ defaults: &defaults
   backups_retention_period: 7
   captcha_enabled: false
   allow_referrer_origin: false
+  #max_users_limit: 700
 
 development:
   <<: *defaults
