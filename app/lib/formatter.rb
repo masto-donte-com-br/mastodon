@@ -265,7 +265,12 @@ class Formatter
 
   def link_to_mention(entity, linkable_accounts)
     acct = entity[:screen_name]
+    username, domain = acct.split('@')
 
+    return link_to_twitter(username) if domain == "twitter.com"
+    return link_to_instagram(username) if domain == "instagram.com"
+    return link_to_github(username) if domain == "github.com"
+    return link_to_telegram(username) if ["telegram.org", "t.me"].include? domain
     return link_to_account(acct) unless linkable_accounts
 
     account = linkable_accounts.find { |item| TagManager.instance.same_acct?(item.acct, acct) }
@@ -302,4 +307,21 @@ class Formatter
   def mention_html(account)
     "<span class=\"h-card\"><a href=\"#{encode(ActivityPub::TagManager.instance.url_for(account))}\" class=\"u-url mention\">@<span>#{encode(account.username)}</span></a></span>"
   end
+
+  def link_to_github(username)
+    "<span class=\"h-card\"><a href=\"https://github.com/#{username}\" title=\"#{username}@github.com\" rel=\"noopener noreferrer\" class=\"u-url mention\">@<span>#{username}</span></a></span>"
+  end
+
+  def link_to_instagram(username)
+    "<span class=\"h-card\"><a href=\"https://instagram.com/#{username}\" title=\"#{username}@instagram.com\" rel=\"noopener noreferrer\" class=\"u-url mention\">@<span>#{username}</span></a></span>"
+  end
+
+  def link_to_twitter(username)
+    "<span class=\"h-card\"><a href=\"https://twitter.com/#{username}\" title=\"#{username}@twitter.com\" rel=\"noopener noreferrer\" class=\"u-url mention\">@<span>#{username}</span></a></span>"
+  end
+
+  def link_to_telegram(username)
+    "<span class=\"h-card\"><a href=\"https://t.me/#{username}\" title=\"#{username}@t.me\" rel=\"noopener noreferrer\" class=\"u-url mention\">@<span>#{username}</span></a></span>"
+  end
+
 end
