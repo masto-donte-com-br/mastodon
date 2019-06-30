@@ -34,6 +34,10 @@
       &nbsp;·
       = material_symbol('visibility_off')
       = t('stream_entries.sensitive_content')
+    - if status.proper.local_only
+      &nbsp;·
+      = material_symbol('link_off')
+      = t('statuses.local_only')
     - unless status.direct_visibility?
       &nbsp;·
       = link_to ActivityPub::TagManager.instance.url_for(status.proper), class: 'detailed-status__link', target: 'blank', rel: 'noopener' do
