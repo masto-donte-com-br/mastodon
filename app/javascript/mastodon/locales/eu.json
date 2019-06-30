@@ -560,6 +560,7 @@
   "status.history.created": "{name} erabiltzaileak sortua {date}",
   "status.history.edited": "{name} erabiltzaileak editatua {date}",
   "status.load_more": "Kargatu gehiago",
+  "status.local_only": "This post is only visible by other users of your instance",
   "status.media_hidden": "Multimedia ezkutatua",
   "status.mention": "Aipatu @{name}",
   "status.more": "Gehiago",
