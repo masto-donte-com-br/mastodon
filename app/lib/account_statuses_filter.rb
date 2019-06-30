@@ -35,7 +35,7 @@ class AccountStatusesFilter
     return Status.none if account.unavailable?
 
     if anonymous?
-      account.statuses.distributable_visibility
+      account.statuses.distributable_visibility.without_local_only
     elsif author?
       account.statuses.all # NOTE: #merge! does not work without the #all
     elsif blocked?
