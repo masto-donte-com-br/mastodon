@@ -567,6 +567,7 @@
   "status.history.created": "Crëwyd gan {name} {date}",
   "status.history.edited": "Golygwyd gan {name} {date}",
   "status.load_more": "Llwythwch ragor",
+  "status.local_only": "This post is only visible by other users of your instance",
   "status.media_hidden": "Cyfryngau wedi'u cuddio",
   "status.mention": "Crybwyll @{name}",
   "status.more": "Rhagor",
