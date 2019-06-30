@@ -25,6 +25,8 @@ import { identityContextPropShape, withIdentity } from 'mastodon/identity_contex
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
 import { WithRouterPropTypes } from 'mastodon/utils/react_router';
 
+import LinkOffIcon from '@/material-icons/400-24px/link_off.svg?react';
+
 import DropdownMenuContainer from '../containers/dropdown_menu_container';
 import { me } from '../initial_state';
 
@@ -46,6 +48,7 @@ const messages = defineMessages({
   reblog_private: { id: 'status.reblog_private', defaultMessage: 'Boost with original visibility' },
   cancel_reblog_private: { id: 'status.cancel_reblog_private', defaultMessage: 'Unboost' },
   cannot_reblog: { id: 'status.cannot_reblog', defaultMessage: 'This post cannot be boosted' },
+  local_only: { id: 'status.local_only', defaultMessage: 'This post is only visible by other users of your instance' },
   favourite: { id: 'status.favourite', defaultMessage: 'Favorite' },
   bookmark: { id: 'status.bookmark', defaultMessage: 'Bookmark' },
   removeBookmark: { id: 'status.remove_bookmark', defaultMessage: 'Remove bookmark' },
@@ -247,6 +250,7 @@ class StatusActionBar extends ImmutablePureComponent {
     const pinnableStatus     = ['public', 'unlisted', 'private'].includes(status.get('visibility'));
     const mutingConversation = status.get('muted');
     const account            = status.get('account');
+    const federated          = !status.get('local_only');
     const writtenByMe        = status.getIn(['account', 'id']) === me;
     const isRemote           = status.getIn(['account', 'username']) !== status.getIn(['account', 'acct']);
 
@@ -387,6 +391,12 @@ class StatusActionBar extends ImmutablePureComponent {
         <div className='status__action-bar__button-wrapper'>
           <IconButton className='status__action-bar__button bookmark-icon' disabled={!signedIn} active={status.get('bookmarked')} title={intl.formatMessage(messages.bookmark)} icon='bookmark' iconComponent={status.get('bookmarked') ? BookmarkIcon : BookmarkBorderIcon} onClick={this.handleBookmarkClick} />
         </div>
+        { !federated &&
+          <div className='status__action-bar__button-wrapper'>
+            <IconButton className='status__action-bar__button local-only-icon' disabled  title={intl.formatMessage(messages.local_only)} icon='link' iconComponent={LinkOffIcon} />
+          </div>
+        }
+
         <div className='status__action-bar__button-wrapper'>
           <DropdownMenuContainer
             scrollKey={scrollKey}
