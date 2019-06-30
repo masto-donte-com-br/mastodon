@@ -1138,6 +1138,7 @@ pt-BR:
     errors:
       in_reply_not_found: O toot que você quer responder parece não existir.
     language_detection: Detectar idioma automaticamente
+    local_only: Somente local
     open_in_web: Abrir no navegador
     over_character_limit: limite de caracteres de %{max} excedido
     pin_errors:
