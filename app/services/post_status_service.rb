@@ -91,12 +91,20 @@ class PostStatusService < BaseService
     end
   end
 
+  def local_only_option(local_only, in_reply_to, federation_setting)
+    return in_reply_to&.local_only? if local_only.nil? # XXX temporary, just until clients implement to avoid leaking local_only posts
+    return federation_setting if local_only.nil?
+    local_only
+  end
+
   def postprocess_status!
     Trends.tags.register(@status)
     LinkCrawlWorker.perform_async(@status.id)
     DistributionWorker.perform_async(@status.id)
-    ActivityPub::DistributionWorker.perform_async(@status.id)
-    PollExpirationNotifyWorker.perform_at(@status.poll.expires_at, @status.poll.id) if @status.poll
+    unless @status.local_only?
+      ActivityPub::DistributionWorker.perform_async(@status.id)
+      PollExpirationNotifyWorker.perform_at(@status.poll.expires_at, @status.poll.id) if @status.poll
+    end
   end
 
   def validate_media!
@@ -169,6 +177,7 @@ class PostStatusService < BaseService
       language: valid_locale_cascade(@options[:language], @account.user&.preferred_posting_language, I18n.default_locale),
       application: @options[:application],
       rate_limit: @options[:with_rate_limit],
+      local_only: local_only_option(@options[:local_only], @in_reply_to, @account.user&.setting_default_federation),
     }.compact
   end
 
