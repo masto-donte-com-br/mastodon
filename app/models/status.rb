@@ -27,6 +27,7 @@
 #  edited_at                    :datetime
 #  trendable                    :boolean
 #  ordered_media_attachment_ids :bigint(8)        is an Array
+#  local_only                   :boolean
 #
 
 class Status < ApplicationRecord
@@ -128,6 +129,8 @@ class Status < ApplicationRecord
   scope :distributable_visibility, -> { where(visibility: %i(public unlisted)) }
   scope :list_eligible_visibility, -> { where(visibility: %i(public unlisted private)) }
 
+  scope :without_local_only, -> { where(local_only: [false, nil]) }
+
   after_create_commit :trigger_create_webhooks
   after_update_commit :trigger_update_webhooks
 
@@ -142,6 +145,8 @@ class Status < ApplicationRecord
   before_validation :set_visibility
   before_validation :set_conversation
   before_validation :set_local
+
+  before_create :set_locality
 
   around_create Mastodon::Snowflake::Callbacks
 
@@ -195,6 +200,10 @@ class Status < ApplicationRecord
 
   def local?
     attributes['local'] || uri.nil?
+  end
+
+  def local_only?
+    local_only
   end
 
   def in_reply_to_local_account?
@@ -441,6 +450,10 @@ class Status < ApplicationRecord
 
   def set_local
     self.local = account.local?
+  end
+
+  def set_locality
+    self.local_only = reblog.local_only if reblog?
   end
 
   def update_statistics
