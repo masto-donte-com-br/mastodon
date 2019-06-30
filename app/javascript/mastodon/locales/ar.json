@@ -567,6 +567,7 @@
   "status.history.created": "أنشأه {name} {date}",
   "status.history.edited": "عدله {name} {date}",
   "status.load_more": "حمّل المزيد",
+  "status.local_only": "This post is only visible by other users of your instance",
   "status.media_hidden": "الصورة مستترة",
   "status.mention": "أذكُر @{name}",
   "status.more": "المزيد",

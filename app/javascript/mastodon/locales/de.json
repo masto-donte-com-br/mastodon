@@ -567,6 +567,7 @@
   "status.history.created": "{name} erstellte {date}",
   "status.history.edited": "{name} bearbeitete {date}",
   "status.load_more": "Weitere laden",
+  "status.local_only": "This post is only visible by other users of your instance",
   "status.media_hidden": "{number, plural, one {Medium ausgeblendet} other {Medien ausgeblendet}}",
   "status.mention": "@{name} im Beitrag erwähnen",
   "status.more": "Mehr",
