@@ -799,6 +799,7 @@
   "status.history.created": "{name} criado em {date}",
   "status.history.edited": "{name} editado em {date}",
   "status.load_more": "Carregar mais",
+  "status.local_only": "Esse post só é visível para outros usuários da sua instância",
   "status.media.open": "Clicar para abrir",
   "status.media.show": "Clicar para ver",
   "status.media_hidden": "Multimédia oculta",
