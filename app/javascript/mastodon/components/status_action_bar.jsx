@@ -21,6 +21,8 @@ import RepeatActiveIcon from '@/svg-icons/repeat_active.svg?react';
 import RepeatDisabledIcon from '@/svg-icons/repeat_disabled.svg?react';
 import RepeatPrivateIcon from '@/svg-icons/repeat_private.svg?react';
 import RepeatPrivateActiveIcon from '@/svg-icons/repeat_private_active.svg?react';
+import LinkOffIcon from '@/material-icons/400-24px/link_off.svg?react';
+
 import { identityContextPropShape, withIdentity } from 'mastodon/identity_context';
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
 import { WithRouterPropTypes } from 'mastodon/utils/react_router';
@@ -46,6 +48,7 @@ const messages = defineMessages({
   reblog_private: { id: 'status.reblog_private', defaultMessage: 'Boost with original visibility' },
   cancel_reblog_private: { id: 'status.cancel_reblog_private', defaultMessage: 'Unboost' },
   cannot_reblog: { id: 'status.cannot_reblog', defaultMessage: 'This post cannot be boosted' },
+  local_only: { id: 'status.local_only', defaultMessage: 'This post is only visible by other users of your instance' },
   favourite: { id: 'status.favourite', defaultMessage: 'Favorite' },
   removeFavourite: { id: 'status.remove_favourite', defaultMessage: 'Remove from favorites' },
   bookmark: { id: 'status.bookmark', defaultMessage: 'Bookmark' },
@@ -248,6 +251,7 @@ class StatusActionBar extends ImmutablePureComponent {
     const pinnableStatus     = ['public', 'unlisted', 'private'].includes(status.get('visibility'));
     const mutingConversation = status.get('muted');
     const account            = status.get('account');
+    const federated          = !status.get('local_only');
     const writtenByMe        = status.getIn(['account', 'id']) === me;
     const isRemote           = status.getIn(['account', 'username']) !== status.getIn(['account', 'acct']);
 
@@ -388,6 +392,12 @@ class StatusActionBar extends ImmutablePureComponent {
         <div className='status__action-bar__button-wrapper'>
           <IconButton className='status__action-bar__button bookmark-icon' disabled={!signedIn} active={status.get('bookmarked')} title={bookmarkTitle} icon='bookmark' iconComponent={status.get('bookmarked') ? BookmarkIcon : BookmarkBorderIcon} onClick={this.handleBookmarkClick} />
         </div>
+        { !federated &&
+          <div className='status__action-bar__button-wrapper'>
+            <IconButton className='status__action-bar__button local-only-icon' disabled  title={intl.formatMessage(messages.local_only)} icon='link' iconComponent={LinkOffIcon} />
+          </div>
+        }
+
         <div className='status__action-bar__button-wrapper'>
           <Dropdown
             scrollKey={scrollKey}
