@@ -1861,6 +1861,7 @@ pt-PT:
     edited_at_html: Editado em %{date}
     errors:
       in_reply_not_found: A publicação a que estás a tentar responder parece não existir.
+    local_only: Somente local
     over_character_limit: limite de caracteres %{max} excedido
     pin_errors:
       direct: As publicações que só são visíveis para os utilizadores mencionados não podem ser fixadas
