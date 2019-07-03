@@ -27,12 +27,14 @@ pt-BR:
         phrase: Vai coincidir, independente de maiúsculas ou minúsculas, no texto ou no aviso de conteúdo de um toot
         scopes: Quais APIs a aplicação vai ter permissão de acessar. Se você selecionar um escopo de alto nível, você não precisa selecionar individualmente os outros.
         setting_aggregate_reblogs: Não mostrar novos compartilhamentos para toots que foram compartilhados recentemente (afeta somente novos compartilhamentos recebidos)
+        setting_default_sensitive: Mídia sensível é escondida por padrão e pode ser mostrada com um clique
         setting_display_media_default: Esconder mídia marcada como sensível
         setting_display_media_hide_all: Sempre esconder todas as mídias
         setting_display_media_show_all: Sempre mostrar mídia marcada como sensível
         setting_hide_network: Quem você segue e quem segue você não serão exibidos no seu perfil
         setting_noindex: Afeta seu perfil público e as páginas de suas postagens
         setting_show_application: A aplicação que você usar para enviar seus toots vai aparecer na visão detalhada dos seus toots
+        setting_use_blurhash: Gradientes são baseadas nas cores das imagens escondidas, mas escondem qualquer detalhes
         username: Seu nome de usuário será único em %{domain}
         whole_word: Quando a palavra ou frase é inteiramente alfanumérica, ela será aplicada somente se corresponder a palavra inteira
       featured_tag:
@@ -64,6 +66,7 @@ pt-BR:
         warning_preset_id: Usar um aviso pré-definido
       defaults:
         autofollow: Convite para seguir a sua conta
+        avatar: Avatar
         bot: Esta é uma conta-robô
         chosen_languages: Filtros de idioma
         confirm_new_password: Confirmar nova senha
@@ -83,9 +86,11 @@ pt-BR:
         locked: Trancar conta
         max_uses: Número máximo de usos
         new_password: Nova senha
+        note: Bio
         otp_attempt: Código de autenticação em dois passos
         password: Senha
         phrase: Palavra-chave ou frase
+        setting_advanced_layout: Habilitar interface web avançada
         setting_aggregate_reblogs: Agrupar compartilhamentos nas timelines
         setting_auto_play_gif: Reproduzir GIFs automaticamente
         setting_boost_modal: Mostrar diálogo de confirmação antes de compartilhar postagem
@@ -105,11 +110,14 @@ pt-BR:
         setting_system_font_ui: Usar a fonte padrão de seu sistema
         setting_theme: Tema do site
         setting_unfollow_modal: Mostrar diálogo de confirmação antes de deixar de seguir alguém
+        setting_use_blurhash: Mostrar gradientes coloridos para mídia escondida
         severity: Gravidade
         type: Tipo de importação
         username: Nome de usuário
         username_or_email: Nome de usuário ou e-mail
         whole_word: Palavra inteira
+      featured_tag:
+        name: Hashtag
       interactions:
         must_be_follower: Bloquear notificações de não-seguidores
         must_be_following: Bloquear notificações de pessoas que você não segue
@@ -126,6 +134,8 @@ pt-BR:
         reblog: Mandar um e-mail quando alguém compartilhar suas postagens
         report: Mandar um e-mail quando uma nova denúncia é submetida
     'no': Não
+    recommended: Recomendado
     required:
+      mark: "*"
       text: obrigatório
     'yes': Sim

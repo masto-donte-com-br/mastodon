@@ -7,6 +7,7 @@ pt-BR:
     active_count_after: Ativo
     active_footnote: Usuários ativos mensais (UAM)
     administered_by: 'Administrado por:'
+    api: API
     apps: Apps
     apps_platforms: Use o Mastodon a partir de iOS, Android e outras plataformas
     browse_directory: Navegue pelo diretório de perfis e filtre por interesses
@@ -28,6 +29,9 @@ pt-BR:
     see_whats_happening: Veja o que está acontecendo
     server_stats: 'Estatísticas do servidor:'
     source_code: Código-fonte
+    status_count_after:
+      one: status
+      other: statuses
     status_count_before: Autores de
     tagline: Siga amigos e encontre novos
     terms: Termos de serviço
@@ -54,6 +58,10 @@ pt-BR:
     people_who_follow: Pessoas que seguem %{name}
     pin_errors:
       following: Você tem que estar seguindo a pessoa que você quer sugerir
+    posts:
+      one: Toot
+      other: Toots
+    posts_tab_heading: Toots
     posts_with_replies: Toots e respostas
     reserved_username: Este usuário está reservado
     roles:
@@ -75,6 +83,7 @@ pt-BR:
       approve: Aprovar
       approve_all: Aprovar tudo
       are_you_sure: Você tem certeza?
+      avatar: Avatar
       by_domain: Domínio
       change_email:
         changed_msg: E-mail da conta modificado com sucesso!
@@ -105,9 +114,11 @@ pt-BR:
       header: Cabeçalho
       inbox_url: URL da caixa de entrada
       invited_by: Convidado por
+      ip: IP
       joined: Se cadastrou
       location:
         all: Todos
+        local: Local
         remote: Remoto
         title: Localização
       login_status: Situação de login
@@ -163,6 +174,7 @@ pt-BR:
       statuses: Postagens
       subscribe: Inscrever-se
       suspended: Suspenso
+      time_in_queue: Esperando na fila %{time}
       title: Contas
       unconfirmed_email: E-mail não confirmado
       undo_silenced: Retirar silenciamento
@@ -170,6 +182,7 @@ pt-BR:
       unsubscribe: Desinscrever-se
       username: Nome de usuário
       warn: Notificar
+      web: Web
     action_logs:
       actions:
         assigned_to_self_report: "%{name} designou a denúncia %{target} para si"
@@ -214,6 +227,7 @@ pt-BR:
       destroyed_msg: Emoji deletado com sucesso!
       disable: Desabilitar
       disabled_msg: Emoji desabilitado com sucesso
+      emoji: Emoji
       enable: Habilitar
       enabled_msg: Emoji habilitado com sucesso
       image_hint: PNG de até 50KB
@@ -243,6 +257,7 @@ pt-BR:
       recent_users: Usuários recentes
       search: Pesquisa em texto
       single_user_mode: Modo de usuário único
+      software: Software
       space: Uso de espaço em disco
       title: Painel de controle
       total_users: usuários no total
@@ -255,6 +270,7 @@ pt-BR:
       created_msg: Bloqueio de domínio está sendo processado
       destroyed_msg: Bloqueio de domínio desfeito
       domain: Domínio
+      existing_domain_block_html: Você já impôs limites mais estritos a %{name}, você precisa <a href="%{unblock_url}">desbloquear</a> primeiro.
       new:
         create: Criar bloqueio
         hint: O bloqueio de domínio não prevenirá a criação de entradas de contas na base de dados, mas vai reatroativa e automaticamente aplicar métodos específicos de moderação nestas contas.
@@ -335,6 +351,7 @@ pt-BR:
       pending: Esperando pela aprovação do repetidor
       save_and_enable: Salvar e habilitar
       setup: Configurar uma conexão de repetidor
+      status: Status
       title: Repetidores
     report_notes:
       created_msg: Nota de denúncia criada com sucesso!
@@ -364,6 +381,7 @@ pt-BR:
       reported_by: Denunciada por
       resolved: Resolvido
       resolved_msg: Denúncia resolvida com sucesso!
+      status: Status
       title: Denúncias
       unassign: Desatribuir
       unresolved: Não resolvido
@@ -456,11 +474,14 @@ pt-BR:
       confirmed: Confirmado
       expires_in: Expira em
       last_delivery: Última entrega
+      title: WebSub
       topic: Tópico
     tags:
       accounts: Contas
       hidden: Escondido
       hide: Esconder do diretório
+      name: Hashtag
+      title: Hashtags
       unhide: Mostrar no diretório
       visible: Visível
     title: Administração
@@ -478,6 +499,12 @@ pt-BR:
       body: "%{reporter} denunciou %{target}"
       body_remote: Alguém da instância %{domain} reportou %{target}
       subject: Nova denúncia sobre %{instance} (#%{id})
+  appearance:
+    advanced_web_interface: Interface web avançada
+    advanced_web_interface_hint: 'Se você quer fazer uso de toda a largura da sua tela, a interface web avançada permite que você configure muitas colunas diferentes para ver tanta informação simultânea quanto você desejar: Início, notificações, timeline global, qualquer número de listas e hashtags.'
+    animations_and_accessibility: Animações e acessibilidade
+    confirmation_dialogs: Diálogos de confirmação
+    sensitive_content: Conteúdo sensível
   application_mailer:
     notification_preferences: Mudar preferências de e-mail
     settings: 'Mudar e-mail de preferência: %{link}'
@@ -580,6 +607,7 @@ pt-BR:
       request: Solicitar o seu arquivo
       size: Tamanho
     blocks: Você bloqueou
+    csv: CSV
     domain_blocks: Bloqueios de domínio
     follows: Você segue
     lists: Listas
@@ -739,7 +767,12 @@ pt-BR:
       too_few_options: deve ter mais que um item
       too_many_options: não pode ter mais que %{max} itens
   preferences:
+    languages: Idiomas
     other: Outro
+    posting_defaults: Padrões de postagem
+    public_timelines: Timelines públicas
+    publishing: Publicando
+    web: Web
   relationships:
     activity: Atividade da conta
     dormant: Inativo
@@ -787,6 +820,7 @@ pt-BR:
     current_session: Sessão atual
     description: "%{browser} em %{platform}"
     explanation: Estes são os navegadores que estão conectados com a sua conta do Mastodon.
+    ip: IP
     platforms:
       other: Plataforma desconhecida
     revoke: Revogar
@@ -841,6 +875,7 @@ pt-BR:
       vote: Votar
     show_more: Mostrar mais
     sign_in_to_participate: Entre para participar dessa conversa
+    title: '%{name}: "%{quote}"'
     visibilities:
       private: Apenas seguidores
       private_long: Mostrar apenas para seguidores
