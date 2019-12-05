@@ -64,7 +64,6 @@ class ColumnsArea extends ImmutablePureComponent {
     intl: PropTypes.object.isRequired,
     columns: ImmutablePropTypes.list.isRequired,
     isModalOpen: PropTypes.bool.isRequired,
-    singleColumn: PropTypes.bool,
     children: PropTypes.node,
   };
 
@@ -77,10 +76,6 @@ class ColumnsArea extends ImmutablePureComponent {
   }
 
   componentDidMount() {
-    if (!this.props.singleColumn) {
-      this.node.addEventListener('wheel', this.handleWheel,  detectPassiveEvents.hasSupport ? { passive: true } : false);
-    }
-
     this.lastIndex   = getIndex(this.context.router.history.location.pathname);
     this.isRtlLayout = document.getElementsByTagName('body')[0].classList.contains('rtl');
 
@@ -88,30 +83,17 @@ class ColumnsArea extends ImmutablePureComponent {
   }
 
   componentWillUpdate(nextProps) {
-    if (this.props.singleColumn !== nextProps.singleColumn && nextProps.singleColumn) {
-      this.node.removeEventListener('wheel', this.handleWheel);
-    }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.singleColumn !== prevProps.singleColumn && !this.props.singleColumn) {
-      this.node.addEventListener('wheel', this.handleWheel,  detectPassiveEvents.hasSupport ? { passive: true } : false);
-    }
     this.lastIndex = getIndex(this.context.router.history.location.pathname);
     this.setState({ shouldAnimate: true });
   }
 
   componentWillUnmount () {
-    if (!this.props.singleColumn) {
-      this.node.removeEventListener('wheel', this.handleWheel);
-    }
   }
 
   handleChildrenContentChange() {
-    if (!this.props.singleColumn) {
-      const modifier = this.isRtlLayout ? -1 : 1;
-      this._interruptScrollAnimation = scrollRight(this.node, (this.node.scrollWidth - window.innerWidth) * modifier);
-    }
   }
 
   handleSwipe = (index) => {
@@ -176,45 +158,45 @@ class ColumnsArea extends ImmutablePureComponent {
   }
 
   render () {
-    const { columns, children, singleColumn, isModalOpen, intl } = this.props;
+    const { columns, children, isModalOpen, intl } = this.props;
     const { shouldAnimate } = this.state;
 
     const columnIndex = getIndex(this.context.router.history.location.pathname);
 
-    if (singleColumn) {
-      const floatingActionButton = shouldHideFAB(this.context.router.history.location.pathname) ? null : <Link key='floating-action-button' to='/statuses/new' className='floating-action-button' aria-label={intl.formatMessage(messages.publish)}><Icon id='pencil' /></Link>;
+    const floatingActionButton = shouldHideFAB(this.context.router.history.location.pathname) ? null : <Link key='floating-action-button' to='/statuses/new' className='floating-action-button' aria-label={intl.formatMessage(messages.publish)}><Icon id='pencil' /></Link>;
 
-      const content = columnIndex !== -1 ? (
-        <ReactSwipeableViews key='content' hysteresis={0.2} threshold={15} index={columnIndex} onChangeIndex={this.handleSwipe} onTransitionEnd={this.handleAnimationEnd} animateTransitions={shouldAnimate} springConfig={{ duration: '400ms', delay: '0s', easeFunction: 'ease' }} style={{ height: '100%' }}>
-          {links.map(this.renderView)}
-        </ReactSwipeableViews>
-      ) : (
-        <div key='content' className='columns-area columns-area--mobile'>{children}</div>
-      );
+    const content = columnIndex !== -1 ? (
+      <ReactSwipeableViews key='content' hysteresis={0.2} threshold={15} index={columnIndex} onChangeIndex={this.handleSwipe} onTransitionEnd={this.handleAnimationEnd} animateTransitions={shouldAnimate} springConfig={{ duration: '400ms', delay: '0s', easeFunction: 'ease' }} style={{ height: '100%' }}>
+        {links.map(this.renderView)}
+      </ReactSwipeableViews>
+    ) : (
+      <div key='content' className='columns-area columns-area--mobile'>{children}</div>
+    );
 
-      return (
-        <div className='columns-area__panels'>
-          <div className='columns-area__panels__pane columns-area__panels__pane--compositional'>
-            <div className='columns-area__panels__pane__inner'>
-              <ComposePanel />
-            </div>
+    return (
+      <div className='columns-area__panels'>
+        <div className='columns-area__panels__pane columns-area__panels__pane--compositional'>
+          <div className='columns-area__panels__pane__inner'>
+            <ComposePanel />
           </div>
-
-          <div className='columns-area__panels__main'>
-            <TabsBar key='tabs' />
-            {content}
-          </div>
-
-          <div className='columns-area__panels__pane columns-area__panels__pane--start columns-area__panels__pane--navigational'>
-            <div className='columns-area__panels__pane__inner'>
-              <NavigationPanel />
-            </div>
-          </div>
-
-          {floatingActionButton}
         </div>
-      );
-    }
+
+
+
+        <div className='columns-area__panels__main'>
+          <TabsBar key='tabs' />
+          {content}
+        </div>
+
+        <div className='columns-area__panels__pane columns-area__panels__pane--start columns-area__panels__pane--navigational'>
+          <div className='columns-area__panels__pane__inner'>
+            <NavigationPanel />
+          </div>
+        </div>
+
+        {floatingActionButton}
+      </div>
+    );
 
     return (
       <div className={`columns-area ${ isModalOpen ? 'unscrollable' : '' }`} ref={this.setRef}>

@@ -51,7 +51,7 @@ import {
   Search,
   Directory,
 } from './util/async-components';
-import { me, forceSingleColumn } from '../../initial_state';
+import { me } from '../../initial_state';
 import { previewState as previewMediaState } from './components/media_modal';
 import { previewState as previewVideoState } from './components/video_modal';
 
@@ -119,13 +119,7 @@ class SwitchingColumnsArea extends React.PureComponent {
   componentWillMount () {
     window.addEventListener('resize', this.handleResize, { passive: true });
 
-    if (this.state.mobile || forceSingleColumn) {
-      document.body.classList.toggle('layout-single-column', true);
-      document.body.classList.toggle('layout-multiple-columns', false);
-    } else {
-      document.body.classList.toggle('layout-single-column', false);
-      document.body.classList.toggle('layout-multiple-columns', true);
-    }
+    document.body.classList.toggle('layout-single-column', true);
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -133,10 +127,7 @@ class SwitchingColumnsArea extends React.PureComponent {
       this.node.handleChildrenContentChange();
     }
 
-    if (prevState.mobile !== this.state.mobile && !forceSingleColumn) {
-      document.body.classList.toggle('layout-single-column', this.state.mobile);
-      document.body.classList.toggle('layout-multiple-columns', !this.state.mobile);
-    }
+    document.body.classList.toggle('layout-single-column', true);
   }
 
   componentWillUnmount () {
@@ -175,11 +166,10 @@ class SwitchingColumnsArea extends React.PureComponent {
   render () {
     const { children } = this.props;
     const { mobile } = this.state;
-    const singleColumn = forceSingleColumn || mobile;
-    const redirect = singleColumn ? <Redirect from='/' to='/timelines/home' exact /> : <Redirect from='/' to='/getting-started' exact />;
+    const redirect = <Redirect from='/' to='/timelines/home' exact />;
 
     return (
-      <ColumnsAreaContainer ref={this.setRef} singleColumn={singleColumn}>
+      <ColumnsAreaContainer ref={this.setRef}>
         <WrappedSwitch>
           {redirect}
           <WrappedRoute path='/getting-started' component={GettingStarted} content={children} />

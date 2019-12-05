@@ -60,7 +60,6 @@ class Search extends React.PureComponent {
     onShow: PropTypes.func.isRequired,
     openInRoute: PropTypes.bool,
     intl: PropTypes.object.isRequired,
-    singleColumn: PropTypes.bool,
   };
 
   state = {
@@ -100,13 +99,6 @@ class Search extends React.PureComponent {
   handleFocus = () => {
     this.setState({ expanded: true });
     this.props.onShow();
-
-    if (this.searchForm && !this.props.singleColumn) {
-      const { left, right } = this.searchForm.getBoundingClientRect();
-      if (left < 0 || right > (window.innerWidth || document.documentElement.clientWidth)) {
-        this.searchForm.scrollIntoView();
-      }
-    }
   }
 
   handleBlur = () => {

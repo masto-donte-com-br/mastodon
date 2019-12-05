@@ -60,7 +60,6 @@ class ComposeForm extends ImmutablePureComponent {
     onPickEmoji: PropTypes.func.isRequired,
     showSearch: PropTypes.bool,
     anyMedia: PropTypes.bool,
-    singleColumn: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -116,12 +115,6 @@ class ComposeForm extends ImmutablePureComponent {
   }
 
   handleFocus = () => {
-    if (this.composeForm && !this.props.singleColumn) {
-      const { left, right } = this.composeForm.getBoundingClientRect();
-      if (left < 0 || right > (window.innerWidth || document.documentElement.clientWidth)) {
-        this.composeForm.scrollIntoView();
-      }
-    }
   }
 
   componentDidUpdate (prevProps) {
