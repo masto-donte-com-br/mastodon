@@ -5,6 +5,7 @@ import SearchContainer from 'mastodon/features/compose/containers/search_contain
 import ComposeFormContainer from 'mastodon/features/compose/containers/compose_form_container';
 import NavigationContainer from 'mastodon/features/compose/containers/navigation_container';
 import LinkFooter from './link_footer';
+import NavigationPanel from './navigation_panel';
 import { changeComposing } from 'mastodon/actions/compose';
 
 export default @connect()
@@ -19,7 +20,7 @@ class ComposePanel extends React.PureComponent {
   }
 
   onBlur = () => {
-    this.props.dispatch(changeComposing(false));
+   this.props.dispatch(changeComposing(false));
   }
 
   render() {
@@ -28,6 +29,7 @@ class ComposePanel extends React.PureComponent {
         <SearchContainer openInRoute />
         <NavigationContainer onClose={this.onBlur} />
         <ComposeFormContainer/>
+        <NavigationPanel />
         <LinkFooter withHotkeys />
       </div>
     );
