@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Invites' do
   include ActionView::RecordIdentifier
 
-  let(:user) { Fabricate :user }
+  let(:user) { Fabricate :user, created_at: 40.days.ago }
 
   before { sign_in user }
 
@@ -70,7 +70,7 @@ RSpec.describe 'Invites' do
   end
 
   def fill_invite_form
-    select I18n.t('invites.max_uses', count: 100),
+    select I18n.t('invites.max_uses', count: 10),
            from: form_label('defaults.max_uses')
     select I18n.t("invites.expires_in.#{30.minutes.to_i}"),
            from: form_label('defaults.expires_in')
