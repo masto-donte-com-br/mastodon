@@ -9,8 +9,6 @@ class InvitesController < ApplicationController
   before_action :set_body_classes
 
   def index
-    authorize :invite, :create?
-
     @invites = invites
     @invite  = Invite.new
   end
