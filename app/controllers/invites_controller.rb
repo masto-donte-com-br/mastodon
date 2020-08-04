@@ -9,8 +9,6 @@ class InvitesController < ApplicationController
   before_action :set_cache_headers
 
   def index
-    authorize :invite, :create?
-
     @invites = invites
     @invite  = Invite.new
   end
