@@ -232,6 +232,8 @@ Rails.application.routes.draw do
   get '/terms-of-service/:date', to: 'terms_of_service#show', as: :terms_of_service_version
   get '/terms', to: redirect('/terms-of-service')
 
+  get '/emojos', to: 'emojos#index'
+
   match '/', via: [:post, :put, :patch, :delete], to: 'application#raise_not_found', format: false
   match '*unmatched_route', via: :all, to: 'application#raise_not_found', format: false
 end
