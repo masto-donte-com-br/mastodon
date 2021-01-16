@@ -445,7 +445,7 @@ class Status extends ImmutablePureComponent {
             {/* <div className='status__expand' onClick={this.handleExpandClick} role='presentation' /> */}
             <div className='status__info'>
 
-              <a onClick={this.handleAccountClick} data-id={status.getIn(['account', 'id'])} href={status.getIn(['account', 'url'])} title={status.getIn(['account', 'acct'])} className='status__display-name' target='_blank' rel='noopener noreferrer'>
+              <div data-id={status.getIn(['account', 'id'])} href={status.getIn(['account', 'url'])} title={status.getIn(['account', 'acct'])} className='status__display-name' target='_blank' rel='noopener noreferrer'>
                 <div className='status__avatar'>
                   {statusAvatar}
                 </div>
@@ -455,7 +455,7 @@ class Status extends ImmutablePureComponent {
                   <span className='status__visibility-icon'><Icon id={visibilityIcon.icon} title={visibilityIcon.text} /></span>
                   <a href={status.get('url')} className='status__relative-time' target='_blank' rel='noopener noreferrer'><RelativeTimestamp timestamp={status.get('created_at')} /></a>
                 </div>
-              </a>
+              </div>
             </div>
 
             {media}
