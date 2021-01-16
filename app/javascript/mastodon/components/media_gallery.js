@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import { autoPlayGif, cropImages, displayMedia, useBlurhash } from '../initial_state';
 import { debounce } from 'lodash';
 import Blurhash from 'mastodon/components/blurhash';
+import MediaSlide from '../features/ui/components/media_slide';
 
 const messages = defineMessages({
   toggle_visible: { id: 'media_gallery.toggle_visible', defaultMessage: 'Hide {number, plural, one {image} other {images}}' },
@@ -79,111 +80,34 @@ class Item extends React.PureComponent {
   }
 
   render () {
-    const { attachment, index, size, standalone, displayWidth, visible } = this.props;
-
-    let width  = 50;
-    let height = 100;
-    let top    = 'auto';
-    let left   = 'auto';
-    let bottom = 'auto';
-    let right  = 'auto';
-
-    if (size === 1) {
-      width = 100;
-    }
-
-    if (size === 4 || (size === 3 && index > 0)) {
-      height = 50;
-    }
-
-    if (size === 2) {
-      if (index === 0) {
-        right = '2px';
-      } else {
-        left = '2px';
-      }
-    } else if (size === 3) {
-      if (index === 0) {
-        right = '2px';
-      } else if (index > 0) {
-        left = '2px';
-      }
-
-      if (index === 1) {
-        bottom = '2px';
-      } else if (index > 1) {
-        top = '2px';
-      }
-    } else if (size === 4) {
-      if (index === 0 || index === 2) {
-        right = '2px';
-      }
-
-      if (index === 1 || index === 3) {
-        left = '2px';
-      }
-
-      if (index < 2) {
-        bottom = '2px';
-      } else {
-        top = '2px';
-      }
-    }
-
-    let thumbnail = '';
+    const { attachment, standalone, visible } = this.props;
+    let image = '';
 
     if (attachment.get('type') === 'unknown') {
       return (
         <div className={classNames('media-gallery__item', { standalone })} key={attachment.get('id')} style={{ left: left, top: top, right: right, bottom: bottom, width: `${width}%`, height: `${height}%` }}>
-          <a className='media-gallery__item-thumbnail' href={attachment.get('remote_url') || attachment.get('url')} style={{ cursor: 'pointer' }} title={attachment.get('description')} target='_blank' rel='noopener noreferrer'>
-            <Blurhash
-              hash={attachment.get('blurhash')}
-              className='media-gallery__preview'
-              dummy={!useBlurhash}
-            />
-          </a>
+          <Blurhash
+            hash={attachment.get('blurhash')}
+            className='media-gallery__preview'
+            dummy={!useBlurhash}
+          />
         </div>
       );
     } else if (attachment.get('type') === 'image') {
-      const previewUrl   = attachment.get('preview_url');
-      const previewWidth = attachment.getIn(['meta', 'small', 'width']);
-
       const originalUrl   = attachment.get('url');
-      const originalWidth = attachment.getIn(['meta', 'original', 'width']);
 
-      const hasSize = typeof originalWidth === 'number' && typeof previewWidth === 'number';
-
-      const srcSet = hasSize ? `${originalUrl} ${originalWidth}w, ${previewUrl} ${previewWidth}w` : null;
-      const sizes  = hasSize && (displayWidth > 0) ? `${displayWidth * (width / 100)}px` : null;
-
-      const focusX = attachment.getIn(['meta', 'focus', 'x']) || 0;
-      const focusY = attachment.getIn(['meta', 'focus', 'y']) || 0;
-      const x      = ((focusX /  2) + .5) * 100;
-      const y      = ((focusY / -2) + .5) * 100;
-
-      thumbnail = (
-        <a
-          className='media-gallery__item-thumbnail'
-          href={attachment.get('remote_url') || originalUrl}
-          onClick={this.handleClick}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <img
-            src={previewUrl}
-            srcSet={srcSet}
-            sizes={sizes}
-            alt={attachment.get('description')}
-            title={attachment.get('description')}
-            style={{ objectPosition: `${x}% ${y}%` }}
-            onLoad={this.handleImageLoad}
-          />
-        </a>
+      image = (
+        <img
+          src={originalUrl}
+          alt={attachment.get('description')}
+          title={attachment.get('description')}
+          onLoad={this.handleImageLoad}
+        />
       );
     } else if (attachment.get('type') === 'gifv') {
       const autoPlay = !isIOS() && this.getAutoPlay();
 
-      thumbnail = (
+      image = (
         <div className={classNames('media-gallery__gifv', { autoplay: autoPlay })}>
           <video
             className='media-gallery__item-gifv-thumbnail'
@@ -205,7 +129,7 @@ class Item extends React.PureComponent {
     }
 
     return (
-      <div className={classNames('media-gallery__item', { standalone })} key={attachment.get('id')} style={{ left: left, top: top, right: right, bottom: bottom, width: `${width}%`, height: `${height}%` }}>
+      <div className={classNames('media-gallery__item', { standalone })} key={attachment.get('id')}>
         <Blurhash
           hash={attachment.get('blurhash')}
           dummy={!useBlurhash}
@@ -213,7 +137,7 @@ class Item extends React.PureComponent {
             'media-gallery__preview--hidden': visible && this.state.loaded,
           })}
         />
-        {visible && thumbnail}
+        {visible && image}
       </div>
     );
   }
@@ -312,7 +236,6 @@ class MediaGallery extends React.PureComponent {
   render () {
     const { media, intl, sensitive, height, defaultWidth, standalone, autoplay } = this.props;
     const { visible } = this.state;
-
     const width = this.state.width || defaultWidth;
 
     let children, spoilerButton;
@@ -335,7 +258,21 @@ class MediaGallery extends React.PureComponent {
     if (standalone && this.isFullSizeEligible()) {
       children = <Item standalone autoplay={autoplay} onClick={this.handleClick} attachment={media.get(0)} displayWidth={width} visible={visible} />;
     } else {
-      children = media.take(4).map((attachment, i) => <Item key={attachment.get('id')} autoplay={autoplay} onClick={this.handleClick} attachment={attachment} index={i} size={size} displayWidth={width} visible={visible || uncached} />);
+      const slideItem = media.take(4).map((attachment, i) =>
+        (
+          <Item
+            key={attachment.get('id')}
+            autoplay={autoplay}
+            onClick={this.handleClick}
+            attachment={attachment}
+            index={i}
+            size={size}
+            displayWidth={width}
+            visible={visible || uncached}
+          />
+        ),
+      );
+      children = <MediaSlide media={slideItem} index={media.length} visible={visible || uncached} />;
     }
 
     if (uncached) {
