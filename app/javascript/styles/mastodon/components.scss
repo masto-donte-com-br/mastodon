@@ -875,6 +875,13 @@
     &.status__content__text--visible {
       display: block;
     }
+
+    &.status__content__text--display-name {
+      display: flex;
+      .display-name {
+        flex-shrink: 0;
+      }
+    }
   }
 }
 
