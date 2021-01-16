@@ -55,14 +55,10 @@ export default class DisplayName extends React.PureComponent {
   render () {
     const { others, localDomain } = this.props;
 
-    let displayName, suffix, account;
+    let displayName, account;
 
     if (others && others.size > 1) {
       displayName = others.take(2).map(a => <bdi key={a.get('id')}><strong className='display-name__html' dangerouslySetInnerHTML={{ __html: a.get('display_name_html') }} /></bdi>).reduce((prev, cur) => [prev, ', ', cur]);
-
-      if (others.size - 2 > 0) {
-        suffix = `+${others.size - 2}`;
-      }
     } else {
       if (others && others.size > 0) {
         account = others.first();
@@ -77,12 +73,11 @@ export default class DisplayName extends React.PureComponent {
       }
 
       displayName = <bdi><strong className='display-name__html' dangerouslySetInnerHTML={{ __html: account.get('display_name_html') }} /></bdi>;
-      suffix      = <span className='display-name__account'>@{acct}</span>;
     }
 
     return (
       <span className='display-name' ref={this.setRef}>
-        {displayName} {suffix}
+        {displayName}
       </span>
     );
   }
