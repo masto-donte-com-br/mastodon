@@ -1,20 +1,23 @@
-import React from 'react';
-import { Provider } from 'react-redux';
 import PropTypes from 'prop-types';
-import configureStore from '../store/configureStore';
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { IntlProvider, addLocaleData } from 'react-intl';
+import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { ScrollContext } from 'react-router-scroll-4';
-import UI from '../features/ui';
-import { fetchCustomEmojis } from '../actions/custom_emojis';
-import { hydrateStore } from '../actions/store';
-import { connectUserStream } from '../actions/streaming';
-import { IntlProvider, addLocaleData } from 'react-intl';
-import { getLocale } from '../locales';
-import initialState from '../initial_state';
-import ErrorBoundary from '../components/error_boundary';
+import configureStore from 'mastodon/store/configureStore';
+import UI from 'mastodon/features/ui';
+import { fetchCustomEmojis } from 'mastodon/actions/custom_emojis';
+import { hydrateStore } from 'mastodon/actions/store';
+import { connectUserStream } from 'mastodon/actions/streaming';
+import ErrorBoundary from 'mastodon/components/error_boundary';
+import initialState, { title as siteTitle } from 'mastodon/initial_state';
+import { getLocale } from 'mastodon/locales';
 
 const { localeData, messages } = getLocale();
 addLocaleData(localeData);
+
+const title = process.env.NODE_ENV === 'production' ? siteTitle : `${siteTitle} (Dev)`;
 
 export const store = configureStore();
 const hydrateAction = hydrateStore(initialState);
@@ -22,14 +25,41 @@ const hydrateAction = hydrateStore(initialState);
 store.dispatch(hydrateAction);
 store.dispatch(fetchCustomEmojis());
 
+const createIdentityContext = state => ({
+  signedIn: !!state.meta.me,
+  accountId: state.meta.me,
+  disabledAccountId: state.meta.disabled_account_id,
+  accessToken: state.meta.access_token,
+  permissions: state.role ? state.role.permissions : 0,
+});
+
 export default class Mastodon extends React.PureComponent {
 
   static propTypes = {
     locale: PropTypes.string.isRequired,
   };
 
+  static childContextTypes = {
+    identity: PropTypes.shape({
+      signedIn: PropTypes.bool.isRequired,
+      accountId: PropTypes.string,
+      disabledAccountId: PropTypes.string,
+      accessToken: PropTypes.string,
+    }).isRequired,
+  };
+
+  identity = createIdentityContext(initialState);
+
+  getChildContext() {
+    return {
+      identity: this.identity,
+    };
+  }
+
   componentDidMount() {
-    this.disconnect = store.dispatch(connectUserStream());
+    if (this.identity.signedIn) {
+      this.disconnect = store.dispatch(connectUserStream());
+    }
   }
 
   componentWillUnmount () {
@@ -48,15 +78,17 @@ export default class Mastodon extends React.PureComponent {
 
     return (
       <IntlProvider locale={locale} messages={messages}>
-        <Provider store={store}>
+        <ReduxProvider store={store}>
           <ErrorBoundary>
-            <BrowserRouter basename='/web'>
+            <BrowserRouter>
               <ScrollContext shouldUpdateScroll={this.shouldUpdateScroll}>
                 <Route path='/' component={UI} />
               </ScrollContext>
             </BrowserRouter>
+
+            <Helmet defaultTitle={title} titleTemplate={`%s - ${title}`} />
           </ErrorBoundary>
-        </Provider>
+        </ReduxProvider>
       </IntlProvider>
     );
   }

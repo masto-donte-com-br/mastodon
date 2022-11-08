@@ -15,7 +15,7 @@ RSpec.describe ActivityPub::FollowersSynchronizationsController, type: :controll
   end
 
   before do
-    allow(controller).to receive(:signed_request_account).and_return(remote_account)
+    allow(controller).to receive(:signed_request_actor).and_return(remote_account)
   end
 
   describe 'GET #show' do
@@ -47,7 +47,7 @@ RSpec.describe ActivityPub::FollowersSynchronizationsController, type: :controll
 
       it 'returns orderedItems with followers from example.com' do
         expect(body[:orderedItems]).to be_an Array
-        expect(body[:orderedItems].sort).to eq [follower_4.uri, follower_1.uri, follower_2.uri]
+        expect(body[:orderedItems]).to match_array([follower_4.uri, follower_1.uri, follower_2.uri])
       end
 
       it 'returns private Cache-Control header' do

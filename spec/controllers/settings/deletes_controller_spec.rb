@@ -17,7 +17,7 @@ describe Settings::DeletesController do
       end
 
       context 'when suspended' do
-        let(:user) { Fabricate(:user, account_attributes: { username: 'alice', suspended_at: Time.now.utc }) }
+        let(:user) { Fabricate(:user, account_attributes: { suspended_at: Time.now.utc }) }
 
         it 'returns http forbidden' do
           get :show
@@ -64,7 +64,7 @@ describe Settings::DeletesController do
         end
 
         context 'when suspended' do
-          let(:user) { Fabricate(:user, account_attributes: { username: 'alice', suspended_at: Time.now.utc }) }
+          let(:user) { Fabricate(:user, account_attributes: { suspended_at: Time.now.utc }) }
 
           it 'returns http forbidden' do
             expect(response).to have_http_status(403)
@@ -79,20 +79,6 @@ describe Settings::DeletesController do
 
         it 'redirects back to confirmation page' do
           expect(response).to redirect_to settings_delete_path
-        end
-      end
-
-      context 'when account deletions are disabled' do
-        around do |example|
-          open_deletion = Setting.open_deletion
-          example.run
-          Setting.open_deletion = open_deletion
-        end
-
-        it 'redirects' do
-          Setting.open_deletion = false
-          delete :destroy
-          expect(response).to redirect_to root_path
         end
       end
     end

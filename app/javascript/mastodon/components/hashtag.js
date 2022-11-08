@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Permalink from './permalink';
 import ShortNumber from 'mastodon/components/short_number';
+import Skeleton from 'mastodon/components/skeleton';
+import classNames from 'classnames';
 
 class SilentErrorBoundary extends React.Component {
 
@@ -36,65 +38,78 @@ class SilentErrorBoundary extends React.Component {
  *
  * @type {(displayNumber: JSX.Element, pluralReady: number) => JSX.Element}
  */
-const accountsCountRenderer = (displayNumber, pluralReady) => (
+export const accountsCountRenderer = (displayNumber, pluralReady) => (
   <FormattedMessage
     id='trends.counter_by_accounts'
-    defaultMessage='{count, plural, one {{counter} person} other {{counter} people}} talking'
+    defaultMessage='{count, plural, one {{counter} person} other {{counter} people}} in the past {days, plural, one {day} other {{days} days}}'
     values={{
       count: pluralReady,
       counter: <strong>{displayNumber}</strong>,
+      days: 2,
     }}
   />
 );
 
-const Hashtag = ({ hashtag }) => (
-  <div className='trends__item'>
+export const ImmutableHashtag = ({ hashtag }) => (
+  <Hashtag
+    name={hashtag.get('name')}
+    href={hashtag.get('url')}
+    to={`/tags/${hashtag.get('name')}`}
+    people={hashtag.getIn(['history', 0, 'accounts']) * 1 + hashtag.getIn(['history', 1, 'accounts']) * 1}
+    history={hashtag.get('history').reverse().map((day) => day.get('uses')).toArray()}
+  />
+);
+
+ImmutableHashtag.propTypes = {
+  hashtag: ImmutablePropTypes.map.isRequired,
+};
+
+const Hashtag = ({ name, href, to, people, uses, history, className, description, withGraph }) => (
+  <div className={classNames('trends__item', className)}>
     <div className='trends__item__name'>
-      <Permalink
-        href={hashtag.get('url')}
-        to={`/timelines/tag/${hashtag.get('name')}`}
-      >
-        #<span>{hashtag.get('name')}</span>
+      <Permalink href={href} to={to}>
+        {name ? <React.Fragment>#<span>{name}</span></React.Fragment> : <Skeleton width={50} />}
       </Permalink>
 
-      <ShortNumber
-        value={
-          hashtag.getIn(['history', 0, 'accounts']) * 1 +
-          hashtag.getIn(['history', 1, 'accounts']) * 1
-        }
-        renderer={accountsCountRenderer}
-      />
+      {description ? (
+        <span>{description}</span>
+      ) : (
+        typeof people !== 'undefined' ? <ShortNumber value={people} renderer={accountsCountRenderer} /> : <Skeleton width={100} />
+      )}
     </div>
 
-    <div className='trends__item__current'>
-      <ShortNumber
-        value={
-          hashtag.getIn(['history', 0, 'uses']) * 1 +
-          hashtag.getIn(['history', 1, 'uses']) * 1
-        }
-      />
-    </div>
+    {typeof uses !== 'undefined' && (
+      <div className='trends__item__current'>
+        <ShortNumber value={uses} />
+      </div>
+    )}
 
-    <div className='trends__item__sparkline'>
-      <SilentErrorBoundary>
-        <Sparklines
-          width={50}
-          height={28}
-          data={hashtag
-            .get('history')
-            .reverse()
-            .map((day) => day.get('uses'))
-            .toArray()}
-        >
-          <SparklinesCurve style={{ fill: 'none' }} />
-        </Sparklines>
-      </SilentErrorBoundary>
-    </div>
+    {withGraph && (
+      <div className='trends__item__sparkline'>
+        <SilentErrorBoundary>
+          <Sparklines width={50} height={28} data={history ? history : Array.from(Array(7)).map(() => 0)}>
+            <SparklinesCurve style={{ fill: 'none' }} />
+          </Sparklines>
+        </SilentErrorBoundary>
+      </div>
+    )}
   </div>
 );
 
 Hashtag.propTypes = {
-  hashtag: ImmutablePropTypes.map.isRequired,
+  name: PropTypes.string,
+  href: PropTypes.string,
+  to: PropTypes.string,
+  people: PropTypes.number,
+  description: PropTypes.node,
+  uses: PropTypes.number,
+  history: PropTypes.arrayOf(PropTypes.number),
+  className: PropTypes.string,
+  withGraph: PropTypes.bool,
+};
+
+Hashtag.defaultProps = {
+  withGraph: true,
 };
 
 export default Hashtag;
