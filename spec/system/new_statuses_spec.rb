@@ -18,7 +18,7 @@ RSpec.describe 'NewStatuses', :inline_jobs, :js, :streaming do
 
     within('.compose-form') do
       fill_in frontend_translations('compose_form.placeholder'), with: status_text
-      click_on 'Post'
+      click_on 'Toot'
     end
 
     expect(page)
