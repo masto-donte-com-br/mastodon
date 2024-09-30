@@ -65,7 +65,7 @@ class ClosedRegistrationsModal extends ImmutablePureComponent {
                 defaultMessage='Since Mastodon is decentralized, you can create an account on another server and still interact with this one.'
               />
             </p>
-            <a href='https://joinmastodon.org/servers' className='button button--block'><FormattedMessage id='closed_registrations_modal.find_another_server' defaultMessage='Find another server' /></a>
+            <a href='https://brasil.rednet.social/' className='button button--block'><FormattedMessage id='closed_registrations_modal.find_another_server' defaultMessage='Find another server' /></a>
           </div>
         </div>
       </div>
