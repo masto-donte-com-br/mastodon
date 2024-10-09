@@ -11114,6 +11114,8 @@ noscript {
   color: $secondary-text-color;
   border-top: 1px solid;
   border-bottom: 1px solid;
+  border-left: 1px solid;
+  border-right: 1px solid;
   border-color: rgba($ui-highlight-color, 0.15);
   padding: 8px (5px + 8px);
   position: relative;
@@ -11136,7 +11138,6 @@ noscript {
     display: block;
     position: absolute;
     height: 100%;
-    background: url('../images/warning-stripes.svg') repeat-y;
     width: 5px;
     top: 0;
   }
@@ -11151,10 +11152,5 @@ noscript {
     border-start-end-radius: 4px;
     border-end-end-radius: 4px;
     inset-inline-end: 0;
-  }
-
-  &--filter::before,
-  &--filter::after {
-    background-image: url('../images/filter-stripes.svg');
   }
 }
