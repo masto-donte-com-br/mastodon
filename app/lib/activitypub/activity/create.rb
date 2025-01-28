@@ -93,6 +93,8 @@ class ActivityPub::Activity::Create < ActivityPub::Activity
 
     attachment_ids = process_attachments.take(Status::MEDIA_ATTACHMENTS_LIMIT).map(&:id)
 
+    @options[:override_timestamps] = false if @status_parser.created_at && @status_parser.created_at < 6.months.ago
+
     @params = {
       uri: @status_parser.uri,
       url: @status_parser.url || @status_parser.uri,
