@@ -22,6 +22,8 @@ import FederationDropdownContainer from '../containers/federation_dropdown_conta
 import PrivacyDropdownContainer from '../containers/privacy_dropdown_container';
 import SpoilerButtonContainer from '../containers/spoiler_button_container';
 import UploadButtonContainer from '../containers/upload_button_container';
+import ContentTypeDropdownContainer from '../containers/content_type_button_container';
+
 import { countableText } from '../util/counter';
 
 import { CharacterCounter } from './character_counter';
@@ -50,6 +52,7 @@ class ComposeForm extends ImmutablePureComponent {
     suggestions: ImmutablePropTypes.list,
     spoiler: PropTypes.bool,
     privacy: PropTypes.string,
+    content_type: PropTypes.string,
     federation: PropTypes.bool,
     spoilerText: PropTypes.string,
     focusDate: PropTypes.instanceOf(Date),
@@ -301,6 +304,7 @@ class ComposeForm extends ImmutablePureComponent {
                 <PollButtonContainer />
                 <SpoilerButtonContainer />
                 <EmojiPickerDropdown onPickEmoji={this.handleEmojiPick} />
+                <ContentTypeDropdownContainer />
                 <CharacterCounter max={maxChars} text={this.getFulltextForCharacterCounting()} />
               </div>
 

@@ -35,6 +35,7 @@ import {
   COMPOSE_SPOILER_TEXT_CHANGE,
   COMPOSE_VISIBILITY_CHANGE,
   COMPOSE_FEDERATION_CHANGE,
+  COMPOSE_CONTENT_TYPE_CHANGE,
   COMPOSE_LANGUAGE_CHANGE,
   COMPOSE_COMPOSING_CHANGE,
   COMPOSE_EMOJI_INSERT,
@@ -60,6 +61,7 @@ const initialState = ImmutableMap({
   spoiler_text: '',
   privacy: null,
   federation: null,
+  content_type: null,
   id: null,
   text: '',
   focusDate: null,
@@ -80,6 +82,7 @@ const initialState = ImmutableMap({
   suggestion_token: null,
   suggestions: ImmutableList(),
   default_privacy: 'public',
+  default_content_type: 'text/plain',
   default_federation: true,
   default_sensitive: false,
   default_language: 'en',
@@ -114,6 +117,7 @@ function clearAll(state) {
     map.set('is_changing_upload', false);
     map.set('in_reply_to', null);
     map.set('privacy', state.get('default_privacy'));
+    map.set('content_type', state.get('default_content_type'));
     map.set('federation', state.get('default_federation'));
     map.set('sensitive', state.get('default_sensitive'));
     map.set('language', state.get('default_language'));
@@ -368,6 +372,10 @@ export const composeReducer = (state = initialState, action) => {
     return state
       .set('federation', action.value)
       .set('idempotencyKey', uuid());
+  case COMPOSE_CONTENT_TYPE_CHANGE:
+    return state
+      .set('content_type', action.value)
+      .set('idempotencyKey', uuid());
   case COMPOSE_VISIBILITY_CHANGE:
     return state
       .set('privacy', action.value)
@@ -493,6 +501,7 @@ export const composeReducer = (state = initialState, action) => {
       map.set('text', action.raw_text || unescapeHTML(expandMentions(action.status)));
       map.set('in_reply_to', action.status.get('in_reply_to_id'));
       map.set('privacy', action.status.get('visibility'));
+      map.set('content_type', action.status.get('content_type'));
       map.set('media_attachments', action.status.get('media_attachments').map((media) => media.set('unattached', true)));
       map.set('focusDate', new Date());
       map.set('caretPosition', null);
@@ -524,6 +533,7 @@ export const composeReducer = (state = initialState, action) => {
       map.set('text', action.text);
       map.set('in_reply_to', action.status.get('in_reply_to_id'));
       map.set('privacy', action.status.get('visibility'));
+      map.set('content_type', action.status.get('content_type'));
       map.set('media_attachments', action.status.get('media_attachments'));
       map.set('focusDate', new Date());
       map.set('caretPosition', null);
