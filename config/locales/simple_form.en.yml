@@ -39,6 +39,8 @@ en:
       appeal:
         text: You can only appeal a strike once
       defaults:
+        setting_default_content_type_markdown: When writing toots, assume they are using Markdown for rich text formatting, unless specified otherwise
+        setting_default_content_type_plain: When writing toots, assume they are plain text with no special formatting, unless specified otherwise (default Mastodon behavior)
         autofollow: People who sign up through the invite will automatically follow you
         avatar: WEBP, PNG, GIF or JPG. At most %{size}. Will be downscaled to %{dimensions}px
         bot: Signal to others that the account mainly performs automated actions and might not be monitored
@@ -202,6 +204,9 @@ en:
       appeal:
         text: Explain why this decision should be reversed
       defaults:
+        setting_default_content_type: Default format for toots
+        setting_default_content_type_markdown: Markdown
+        setting_default_content_type_plain: Plain text
         autofollow: Invite to follow your account
         avatar: Profile picture
         bot: This is an automated account
