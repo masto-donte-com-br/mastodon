@@ -501,7 +501,7 @@ export const composeReducer = (state = initialState, action) => {
       map.set('text', action.raw_text || unescapeHTML(expandMentions(action.status)));
       map.set('in_reply_to', action.status.get('in_reply_to_id'));
       map.set('privacy', action.status.get('visibility'));
-      map.set('content_type', action.status.get('content_type'));
+      map.set('content_type', action.content_type || state.get('default_content_type'));
       map.set('media_attachments', action.status.get('media_attachments').map((media) => media.set('unattached', true)));
       map.set('focusDate', new Date());
       map.set('caretPosition', null);
@@ -533,7 +533,7 @@ export const composeReducer = (state = initialState, action) => {
       map.set('text', action.text);
       map.set('in_reply_to', action.status.get('in_reply_to_id'));
       map.set('privacy', action.status.get('visibility'));
-      map.set('content_type', action.status.get('content_type'));
+      map.set('content_type', action.content_type || state.get('default_content_type'));
       map.set('media_attachments', action.status.get('media_attachments'));
       map.set('focusDate', new Date());
       map.set('caretPosition', null);

@@ -88,11 +88,12 @@ export function fetchStatusFail(id, error, skipLoading) {
   };
 }
 
-export function redraft(status, raw_text) {
+export function redraft(status, raw_text, content_type) {
   return {
     type: REDRAFT,
     status,
     raw_text,
+    content_type,
   };
 }
 
@@ -108,7 +109,7 @@ export const editStatus = (id) => (dispatch, getState) => {
   api().get(`/api/v1/statuses/${id}/source`).then(response => {
     dispatch(fetchStatusSourceSuccess());
     ensureComposeIsVisible(getState);
-    dispatch(setComposeToStatus(status, response.data.text, response.data.spoiler_text));
+    dispatch(setComposeToStatus(status, response.data.text, response.data.spoiler_text, response.data.content_type));
   }).catch(error => {
     dispatch(fetchStatusSourceFail(error));
   });
@@ -143,7 +144,7 @@ export function deleteStatus(id, withRedraft = false) {
       dispatch(importFetchedAccount(response.data.account));
 
       if (withRedraft) {
-        dispatch(redraft(status, response.data.text));
+        dispatch(redraft(status, response.data.text, response.data.content_type));
         ensureComposeIsVisible(getState);
       }
     }).catch(error => {
