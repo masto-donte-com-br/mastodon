@@ -8,6 +8,8 @@ class InvitesController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    authorize :invite, :create?
+
     @invites = invites
     @invite  = Invite.new
   end

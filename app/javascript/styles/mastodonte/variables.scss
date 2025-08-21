@@ -3,19 +3,19 @@
 // Commonly used web colors
 $black: #000; // Black
 $white: #fff; // White
-$success-green: #79bd9a;    // Padua
-$error-red: #df405a;        // Cerise
-$warning-red: #ff5050;      // Sunset Orange
-$gold-star: #ffffff;        // White
+$success-green: #79bd9a; // Padua
+$error-red: #df405a; // Cerise
+$warning-red: #ff5050; // Sunset Orange
+$gold-star: #fff; // White
 
 $red-bookmark: $warning-red;
 
 // Values from the classic Mastodon UI
-$classic-base-color: #28372c;         // Midnight Express
-$classic-primary-color: #9bc8ae;      // Vista blue
-$classic-highlight-color: darken(#2bd990, 15);    // darker Shamrock
-$classic-secondary-color: lighten(#2db990, 15%);    // lighter Shamrock
-$classic-yellow-lighter-color: #CCB419;
+$classic-base-color: #28372c; // Midnight Express
+$classic-primary-color: #9bc8ae; // Vista blue
+$classic-highlight-color: darken(#2bd990, 15); // darker Shamrock
+$classic-secondary-color: lighten(#2db990, 15%); // lighter Shamrock
+$classic-yellow-lighter-color: #ccb419;
 $classic-base-lighter-color: lighten($classic-base-color, 26%);
 
 @use '../mastodon/variables' with (
@@ -29,9 +29,12 @@ $classic-base-lighter-color: lighten($classic-base-color, 26%);
   $error-value-color: $error-red,
 
   // Tell UI to use selected colors
-  $ui-base-color: $classic-base-color,                  // Darkest
-  $ui-primary-color: $classic-primary-color,            // Lighter
-  $ui-secondary-color: $classic-secondary-color,        // Lightest
+  $ui-base-color: $classic-base-color,
+  // Darkest
+  $ui-primary-color: $classic-primary-color,
+  // Lighter
+  $ui-secondary-color: $classic-secondary-color,
+  // Lightest
   $ui-highlight-color: $classic-highlight-color,
   $ui-button-background-color: $classic-primary-color,
 
@@ -47,5 +50,5 @@ $classic-base-lighter-color: lighten($classic-base-color, 26%);
   // For texts on inverted backgrounds
   $inverted-text-color: $classic-base-color,
   $lighter-text-color: $classic-base-lighter-color,
-  $light-text-color: $classic-primary-color,
+  $light-text-color: $classic-primary-color
 );

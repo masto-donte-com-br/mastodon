@@ -24,6 +24,8 @@ class InvitePolicy < ApplicationPolicy
     MAX_INVITES_IN_PERIOD - invites_generated
   end
 
+  MAX_INVITES_IN_PERIOD = 10
+
   private
 
   def owner?
@@ -39,7 +41,6 @@ class InvitePolicy < ApplicationPolicy
     current_user.created_at && current_user.created_at < 30.days.ago
   end
 
-  MAX_INVITES_IN_PERIOD = 10
   def user_has_used_max_invites_for_period?
     invites_left.zero?
   end

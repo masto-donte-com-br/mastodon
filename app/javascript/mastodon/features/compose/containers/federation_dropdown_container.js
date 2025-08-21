@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import FederationDropdown from '../components/federation_dropdown';
+
 import { changeComposeFederation } from '../../../actions/compose';
 import { openModal, closeModal } from '../../../actions/modal';
 import { isUserTouching } from '../../../is_mobile';
+import FederationDropdown from '../components/federation_dropdown';
 
 const mapStateToProps = state => ({
   isModalOpen: state.get('modal').modalType === 'ACTIONS',

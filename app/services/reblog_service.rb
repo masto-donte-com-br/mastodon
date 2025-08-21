@@ -30,9 +30,7 @@ class ReblogService < BaseService
 
     Trends.register!(reblog)
     DistributionWorker.perform_async(reblog.id)
-    unless reblogged_status.local_only?
-      ActivityPub::DistributionWorker.perform_async(reblog.id)
-    end
+    ActivityPub::DistributionWorker.perform_async(reblog.id) unless reblogged_status.local_only?
 
     create_notification(reblog)
     increment_statistics
