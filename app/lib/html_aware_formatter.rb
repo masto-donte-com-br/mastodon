@@ -33,6 +33,10 @@ class HtmlAwareFormatter
   end
 
   def linkify
-    TextFormatter.new(text, options).to_s
+    if @options[:content_type] == 'text/markdown'
+      AdvancedTextFormatter.new(text, options).to_s
+    else
+      TextFormatter.new(text, options).to_s
+    end
   end
 end
