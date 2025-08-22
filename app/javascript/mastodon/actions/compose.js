@@ -57,6 +57,7 @@ export const COMPOSE_SENSITIVITY_CHANGE  = 'COMPOSE_SENSITIVITY_CHANGE';
 export const COMPOSE_SPOILERNESS_CHANGE  = 'COMPOSE_SPOILERNESS_CHANGE';
 export const COMPOSE_SPOILER_TEXT_CHANGE = 'COMPOSE_SPOILER_TEXT_CHANGE';
 export const COMPOSE_FEDERATION_CHANGE  = 'COMPOSE_FEDERATION_CHANGE';
+export const COMPOSE_CONTENT_TYPE_CHANGE = 'COMPOSE_CONTENT_TYPE_CHANGE';
 export const COMPOSE_COMPOSING_CHANGE    = 'COMPOSE_COMPOSING_CHANGE';
 export const COMPOSE_LANGUAGE_CHANGE     = 'COMPOSE_LANGUAGE_CHANGE';
 
@@ -98,7 +99,7 @@ export const ensureComposeIsVisible = (getState) => {
   }
 };
 
-export function setComposeToStatus(status, text, spoiler_text) {
+export function setComposeToStatus(status, text, spoiler_text, content_type) {
   return (dispatch, getState) => {
     const maxOptions = getState().server.getIn(['server', 'configuration', 'polls', 'max_options']);
 
@@ -108,6 +109,7 @@ export function setComposeToStatus(status, text, spoiler_text) {
       text,
       spoiler_text,
       maxOptions,
+      content_type
     });
   }
 }
@@ -250,6 +252,7 @@ export function submitCompose(successCallback) {
         quoted_status_id: getState().getIn(['compose', 'quoted_status_id']),
         quote_approval_policy: visibility === 'private' || visibility === 'direct' ? 'nobody' : getState().getIn(['compose', 'quote_policy']),
         local_only: !getState().getIn(['compose', 'federation']),
+        content_type: getState().getIn(['compose', 'content_type']),
       },
       headers: {
         'Idempotency-Key': getState().getIn(['compose', 'idempotencyKey']),
@@ -810,6 +813,13 @@ export function changeComposeFederation(value) {
     value,
   };
 };
+
+export function changeComposeContentType(value) {
+  return {
+    type: COMPOSE_CONTENT_TYPE_CHANGE,
+    value,
+  };
+}
 
 export function insertEmojiCompose(position, emoji, needsSpace) {
   return {
