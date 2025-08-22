@@ -107,6 +107,7 @@ class Status < ApplicationRecord
   validates_with StatusLengthValidator
   validates_with DisallowedHashtagsValidator
   validates :reblog, uniqueness: { scope: :account }, if: :reblog?
+  validates :content_type, inclusion: { in: %w(text/plain text/markdown) }, allow_nil: true
 
   accepts_nested_attributes_for :poll
 

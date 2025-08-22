@@ -250,6 +250,7 @@ class PostStatusService < BaseService
       rate_limit: @options[:with_rate_limit],
       quote_approval_policy: @options[:quote_approval_policy],
       local_only: local_only_option(@options[:local_only], @in_reply_to, @account.user&.setting_default_federation, @text, @options[:spoiler_text]),
+      content_type: @options[:content_type] || @account.user&.setting_default_content_type,
     }.compact
   end
 

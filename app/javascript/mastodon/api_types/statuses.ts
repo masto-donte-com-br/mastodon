@@ -122,6 +122,8 @@ export interface ApiStatusJSON {
   poll?: ApiPollJSON;
   quote?: ApiQuoteJSON;
   quote_approval?: ApiQuotePolicyJSON;
+
+  content_type?: string;
 }
 
 export interface ApiContextJSON {
