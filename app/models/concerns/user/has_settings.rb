@@ -152,4 +152,8 @@ module User::HasSettings
   def setting_default_federation
     settings['default_federation']
   end
+
+  def setting_default_content_type
+    settings['default_content_type']
+  end
 end
