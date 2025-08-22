@@ -1085,6 +1085,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_23_210145) do
     t.text "media_descriptions", array: true
     t.string "poll_options", array: true
     t.boolean "sensitive"
+    t.string "content_type"
     t.bigint "quote_id"
     t.index ["account_id"], name: "index_status_edits_on_account_id"
     t.index ["status_id"], name: "index_status_edits_on_status_id"
@@ -1146,6 +1147,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_23_210145) do
     t.datetime "edited_at", precision: nil
     t.boolean "trendable"
     t.bigint "ordered_media_attachment_ids", array: true
+    t.string "content_type"
     t.datetime "fetched_replies_at"
     t.integer "quote_approval_policy", default: 0, null: false
     t.boolean "local_only"
