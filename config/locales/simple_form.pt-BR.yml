@@ -39,6 +39,8 @@ pt-BR:
       appeal:
         text: Você só pode recorrer uma vez
       defaults:
+        setting_default_content_type_markdown: Ao escrever toots, assume que ele está usando Markdown para formatação de texto, a menos que especificado seja diferente
+        setting_default_content_type_plain: Ao escrever toots, assume que eles são textos simples sem formatação especial, a menos que esteja especificado de outra forma (comportamento padrão do Mastodon)
         autofollow: Pessoas que criarem conta através de seu convite te seguirão automaticamente
         avatar: WEBP, PNG, GIF ou JPG. No máximo %{size}. Será reduzido para %{dimensions}px
         bot: Sinaliza aos outros de que essa conta executa principalmente ações automatizadas e pode não ser monitorada
@@ -201,6 +203,9 @@ pt-BR:
       appeal:
         text: Explique o porquê essa decisão deve ser revertida
       defaults:
+        setting_default_content_type: Formato padrão para toots
+        setting_default_content_type_markdown: Markdown
+        setting_default_content_type_plain: Texto sem formatação
         autofollow: Convite para seguir a sua conta
         avatar: Imagem de perfil
         bot: Robô
