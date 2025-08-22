@@ -58,6 +58,7 @@ class InitialStateSerializer < ActiveModel::Serializer
       store[:default_language]  = object_account_user.preferred_posting_language
       store[:default_quote_policy] = object_account_user.setting_default_quote_policy
       store[:default_federation] = object_account_user.setting_default_federation
+      store[:default_content_type] = object_account_user.setting_default_content_type
     end
 
     store[:text] = object.text if object.text
