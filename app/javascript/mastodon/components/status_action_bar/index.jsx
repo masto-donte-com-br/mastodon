@@ -15,6 +15,8 @@ import ReplyIcon from '@/material-icons/400-24px/reply.svg?react';
 import ReplyAllIcon from '@/material-icons/400-24px/reply_all.svg?react';
 import StarIcon from '@/material-icons/400-24px/star-fill.svg?react';
 import StarBorderIcon from '@/material-icons/400-24px/star.svg?react';
+import LinkOffIcon from '@/material-icons/400-24px/link_off.svg?react';
+
 import { identityContextPropShape, withIdentity } from 'mastodon/identity_context';
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
 import { WithRouterPropTypes } from 'mastodon/utils/react_router';
@@ -39,6 +41,7 @@ const messages = defineMessages({
   share: { id: 'status.share', defaultMessage: 'Share' },
   more: { id: 'status.more', defaultMessage: 'More' },
   replyAll: { id: 'status.replyAll', defaultMessage: 'Reply to thread' },
+  local_only: { id: 'status.local_only', defaultMessage: 'This post is only visible by other users of your instance' },
   favourite: { id: 'status.favourite', defaultMessage: 'Favorite' },
   removeFavourite: { id: 'status.remove_favourite', defaultMessage: 'Remove from favorites' },
   bookmark: { id: 'status.bookmark', defaultMessage: 'Bookmark' },
@@ -255,6 +258,7 @@ class StatusActionBar extends ImmutablePureComponent {
     const pinnableStatus     = ['public', 'unlisted', 'private'].includes(status.get('visibility'));
     const mutingConversation = status.get('muted');
     const account            = status.get('account');
+    const federated          = !status.get('local_only');
     const writtenByMe        = status.getIn(['account', 'id']) === me;
     const isRemote           = status.getIn(['account', 'username']) !== status.getIn(['account', 'acct']);
     const isQuotingMe        = quotedAccountId === me;
@@ -382,7 +386,7 @@ class StatusActionBar extends ImmutablePureComponent {
     const bookmarkTitle = intl.formatMessage(status.get('bookmarked') ? messages.removeBookmark : messages.bookmark);
     const favouriteTitle = intl.formatMessage(status.get('favourited') ? messages.removeFavourite : messages.favourite);
     const isReply = status.get('in_reply_to_account_id') === status.getIn(['account', 'id']);
-  
+
     const shouldShowQuoteRemovalHint = isQuotingMe && contextType === 'notifications';
 
     return (
@@ -417,6 +421,11 @@ class StatusActionBar extends ImmutablePureComponent {
             />
           )}
         </RemoveQuoteHint>
+        { !federated &&
+          <div className='status__action-bar__button-wrapper'>
+            <IconButton className='status__action-bar__button local-only-icon' disabled  title={intl.formatMessage(messages.local_only)} icon='link' iconComponent={LinkOffIcon} />
+          </div>
+        }
       </div>
     );
   }

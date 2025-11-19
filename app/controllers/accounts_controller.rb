@@ -24,7 +24,7 @@ class AccountsController < ApplicationController
         expires_in 1.minute, public: true
 
         limit     = params[:limit].present? ? [params[:limit].to_i, PAGE_SIZE_MAX].min : PAGE_SIZE
-        @statuses = filtered_statuses.without_reblogs.limit(limit)
+        @statuses = filtered_statuses.without_reblogs.without_local_only.limit(limit)
         @statuses = preload_collection(@statuses, Status)
       end
 
@@ -46,7 +46,11 @@ class AccountsController < ApplicationController
   end
 
   def default_statuses
-    @account.statuses.distributable_visibility
+    if current_user.nil?
+      @account.statuses.without_local_only.distributable_visibility
+    else
+      @account.statuses.distributable_visibility
+    end
   end
 
   def only_media_scope
