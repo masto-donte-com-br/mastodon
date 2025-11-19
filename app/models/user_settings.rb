@@ -17,6 +17,9 @@ class UserSettings
   setting :default_privacy, default: nil, in: %w(public unlisted private)
   setting :default_quote_policy, default: 'public', in: %w(public followers nobody)
 
+  # Donte: New posts should federate by default
+  setting :default_federation, default: true
+
   setting_inverse_alias :indexable, :noindex
 
   namespace :web do
