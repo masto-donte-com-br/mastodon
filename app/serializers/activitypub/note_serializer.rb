@@ -39,6 +39,8 @@ class ActivityPub::NoteSerializer < ActivityPub::Serializer
   attribute :interaction_policy
 
   def id
+    raise Mastodon::NotPermittedError, 'Local-only statuses should not be serialized' if object.local_only?
+
     ActivityPub::TagManager.instance.uri_for(object)
   end
 

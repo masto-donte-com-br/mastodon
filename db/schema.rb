@@ -1148,6 +1148,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_23_210145) do
     t.bigint "ordered_media_attachment_ids", array: true
     t.datetime "fetched_replies_at"
     t.integer "quote_approval_policy", default: 0, null: false
+    t.boolean "local_only"
     t.index ["account_id", "id", "visibility", "updated_at"], name: "index_statuses_20190820", order: { id: :desc }, where: "(deleted_at IS NULL)"
     t.index ["account_id"], name: "index_statuses_on_account_id"
     t.index ["conversation_id"], name: "index_statuses_on_conversation_id"

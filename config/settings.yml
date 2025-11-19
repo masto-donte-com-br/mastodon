@@ -17,6 +17,7 @@ defaults: &defaults
   local_topic_feed_access: 'public'
   remote_topic_feed_access: 'public'
   show_staff_badge: true
+  default_federation: true
   preview_sensitive_media: false
   noindex: false
   theme: 'system'

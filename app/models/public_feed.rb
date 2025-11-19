@@ -27,7 +27,11 @@ class PublicFeed
     scope.merge!(without_reblogs_scope) unless with_reblogs?
     scope.merge!(local_only_scope) if local_only?
     scope.merge!(remote_only_scope) if remote_only?
-    scope.merge!(account_filters_scope) if account?
+    if account?
+      scope.merge!(account_filters_scope)
+    else
+      scope.merge!(instance_only_statuses_scope)
+    end
     scope.merge!(media_only_scope) if media_only?
     scope.merge!(language_scope) if account&.chosen_languages.present?
 
@@ -73,6 +77,10 @@ class PublicFeed
     (options[:local] && !options[:remote]) || !user_has_access_to_feed?(remote_feed_setting)
   end
 
+  def without_local_only?
+    options[:without_local_only]
+  end
+
   def remote_only?
     (options[:remote] && !options[:local]) || !user_has_access_to_feed?(local_feed_setting)
   end
@@ -97,6 +105,10 @@ class PublicFeed
     Status.remote
   end
 
+  def without_local_only_scope
+    Status.without_local_only
+  end
+
   def without_replies_scope
     Status.without_replies
   end
@@ -107,6 +119,10 @@ class PublicFeed
 
   def media_only_scope
     Status.joins(:media_attachments).group(:id)
+  end
+
+  def instance_only_statuses_scope
+    Status.where(local_only: [false, nil])
   end
 
   def language_scope
