@@ -17,6 +17,7 @@ import AutosuggestTextarea from 'mastodon/components/autosuggest_textarea';
 import { Button } from 'mastodon/components/button';
 import EmojiPickerDropdown from '../containers/emoji_picker_dropdown_container';
 import PollButtonContainer from '../containers/poll_button_container';
+import FederationDropdownContainer from '../containers/federation_dropdown_container';
 import SpoilerButtonContainer from '../containers/spoiler_button_container';
 import UploadButtonContainer from '../containers/upload_button_container';
 import { countableText } from '../util/counter';
@@ -49,6 +50,7 @@ class ComposeForm extends ImmutablePureComponent {
     suggestions: ImmutablePropTypes.list,
     spoiler: PropTypes.bool,
     privacy: PropTypes.string,
+    federation: PropTypes.bool,
     spoilerText: PropTypes.string,
     focusDate: PropTypes.instanceOf(Date),
     caretPosition: PropTypes.number,
@@ -263,6 +265,7 @@ class ComposeForm extends ImmutablePureComponent {
           <div className='compose-form__dropdowns'>
             <VisibilityButton disabled={this.props.isEditing} />
             <LanguageDropdown />
+            <FederationDropdownContainer disabled={this.props.isEditing} />
           </div>
 
           {this.props.spoiler && (
